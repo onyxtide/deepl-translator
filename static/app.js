@@ -14,6 +14,7 @@ const detectedLang = $("detected-lang");
 const usagePanel = $("usage-panel");
 
 let languageNames = {};
+let lastDetected = null;
 
 function showStatus(message, type = "info") {
   statusEl.hidden = false;
@@ -111,6 +112,7 @@ async function translate() {
     copyBtn.disabled = false;
     downloadBtn.disabled = false;
     if (data.detected_source_language) {
+      lastDetected = data.detected_source_language;
       const name =
         languageNames[data.detected_source_language] || data.detected_source_language;
       detectedLang.hidden = false;
@@ -147,6 +149,26 @@ async function handleFile(file) {
 
 function updateCharCount() {
   charCount.textContent = `${inputText.value.length.toLocaleString()} characters`;
+}
+
+function swapLanguages() {
+  const src = sourceSelect.value;
+  const tgt = targetSelect.value;
+  if (!tgt) return;
+  if (!src) {
+    if (
+      lastDetected &&
+      Array.from(targetSelect.options).some((o) => o.value === lastDetected)
+    ) {
+      sourceSelect.value = tgt;
+      targetSelect.value = lastDetected;
+    } else {
+      showStatus("Translate once with auto-detect, then swap works both ways.", "info");
+    }
+    return;
+  }
+  sourceSelect.value = tgt;
+  targetSelect.value = src;
 }
 
 function copyOutput() {
@@ -195,6 +217,7 @@ fileInput.addEventListener("change", () => handleFile(fileInput.files[0]));
 dropzone.addEventListener("drop", (e) => handleFile(e.dataTransfer.files[0]));
 
 translateBtn.addEventListener("click", translate);
+$("swap-btn").addEventListener("click", swapLanguages);
 clearBtn.addEventListener("click", () => {
   inputText.value = "";
   outputText.value = "";

@@ -71,6 +71,8 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 #translate-btn:hover:not(:disabled) { background: var(--accent-hover); color: #062033; }
 #translate-btn:disabled { opacity: 0.5; }
 
+.swap-btn { padding: 0.55rem 0.8rem; font-size: 1.05rem; }
+
 .secondary { background: transparent; }
 
 .status {
