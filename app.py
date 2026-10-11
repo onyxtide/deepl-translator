@@ -20,6 +20,14 @@ class TranslateRequest(BaseModel):
     source_lang: str | None = None
 
 
+@app.middleware("http")
+async def no_cache_static(request, call_next):
+    response = await call_next(request)
+    if request.url.path.startswith("/static"):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response
+
+
 @app.get("/api/health")
 def health():
     return {"status": "ok", "api_key_configured": bool(deepl_client.API_KEY)}
