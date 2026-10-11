@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeepL Article Translator</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>DeepL Article Translator</h1>
+    <div class="usage-panel" id="usage-panel" hidden>
+      <div class="usage-labels">
+        <span id="usage-label">Usage</span>
+        <span id="usage-remaining"></span>
+      </div>
+      <div class="usage-bar"><div id="usage-fill"></div></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <label class="lang-select">
+        <span>From</span>
+        <select id="source-lang"></select>
+      </label>
+      <label class="lang-select">
+        <span>To</span>
+        <select id="target-lang"></select>
+      </label>
+      <button id="translate-btn">Translate</button>
+      <button id="clear-btn" class="secondary">Clear</button>
+    </div>
+
+    <div id="status" class="status" hidden></div>
+
+    <div class="panes">
+      <section class="pane">
+        <h2>Source</h2>
+        <div class="tabs">
+          <button class="tab active" data-tab="paste">Paste text</button>
+          <button class="tab" data-tab="file">File</button>
+        </div>
+
+        <div id="tab-paste" class="tab-panel">
+          <textarea id="input-text" placeholder="Paste or type the article text here..."></textarea>
+        </div>
+
+        <div id="tab-file" class="tab-panel" hidden>
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="file-input" accept=".txt,.md,.docx,.pdf" hidden />
+            <strong>Drop a file here or click to browse</strong>
+            <span>.txt .md .docx .pdf &mdash; max 10 MB</span>
+          </label>
+          <div id="file-info" class="file-info" hidden></div>
+        </div>
+
+        <div class="pane-footer">
+          <span id="char-count">0 characters</span>
+        </div>
+      </section>
+
+      <section class="pane">
+        <h2>Translation</h2>
+        <textarea id="output-text" placeholder="Translation will appear here..." readonly></textarea>
+        <div class="pane-footer">
+          <span id="detected-lang" hidden></span>
+          <span class="spacer"></span>
+          <button id="copy-btn" class="secondary" disabled>Copy</button>
+          <button id="download-btn" class="secondary" disabled>Download .txt</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>Powered by the DeepL API free plan (1,000,000 characters/month). Your key stays local in <code>.env</code> and is never sent anywhere except api-free.deepl.com.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

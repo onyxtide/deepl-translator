@@ -1,0 +1,160 @@
+:root {
+  --bg: #0f172a;
+  --panel: #1e293b;
+  --border: #334155;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #0ea5e9;
+  --accent-hover: #38bdf8;
+  --ok: #22c55e;
+  --err: #ef4444;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+h1 { font-size: 1.25rem; margin: 0; }
+h2 { font-size: 0.9rem; margin: 0 0 0.5rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+main { flex: 1; padding: 1.5rem 2rem; max-width: 1400px; width: 100%; margin: 0 auto; }
+
+.toolbar {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.lang-select { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; color: var(--muted); }
+
+select, button {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+}
+
+select { min-width: 200px; }
+button { cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent-hover); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+#translate-btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #062033;
+  font-weight: 600;
+  padding: 0.55rem 1.6rem;
+}
+#translate-btn:hover:not(:disabled) { background: var(--accent-hover); color: #062033; }
+#translate-btn:disabled { opacity: 0.5; }
+
+.secondary { background: transparent; }
+
+.status {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.status.error { background: #450a0a; border: 1px solid var(--err); color: #fecaca; }
+.status.info { background: #082f49; border: 1px solid var(--accent); color: #bae6fd; }
+.status.success { background: #052e16; border: 1px solid var(--ok); color: #bbf7d0; }
+
+.panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) { .panes { grid-template-columns: 1fr; } }
+
+.pane {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 420px;
+  resize: vertical;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  font: 0.95rem/1.6 "Segoe UI", system-ui, sans-serif;
+}
+textarea:focus { outline: 1px solid var(--accent); }
+
+.tabs { display: flex; gap: 0.5rem; }
+.tab { padding: 0.4rem 0.9rem; font-size: 0.85rem; }
+.tab.active { border-color: var(--accent); color: var(--accent-hover); }
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 220px;
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--muted);
+  text-align: center;
+  padding: 1rem;
+}
+.dropzone:hover, .dropzone.dragover { border-color: var(--accent); color: var(--accent-hover); }
+
+.file-info { font-size: 0.85rem; color: var(--ok); }
+
+.pane-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.spacer { flex: 1; }
+
+.usage-panel { display: flex; flex-direction: column; gap: 0.35rem; min-width: 260px; }
+.usage-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); }
+.usage-bar { height: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+#usage-fill { height: 100%; width: 0%; background: var(--ok); transition: width 0.4s; }
+#usage-fill.warn { background: #eab308; }
+
+footer {
+  padding: 1rem 2rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+footer code { color: var(--text); }
