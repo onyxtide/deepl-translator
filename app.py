@@ -72,4 +72,5 @@ async def upload(file: UploadFile = File(...)):
     return {"filename": filename, "text": text}
 
 
-app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="root")

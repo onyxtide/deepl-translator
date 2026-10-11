@@ -22,6 +22,9 @@ if errorlevel 1 (
 )
 
 echo.
+echo Stopping any previous instance on port 8010...
+for /f "tokens=5" %%p in ('netstat -ano ^| findstr /r /c:":8010 .*LISTENING"') do taskkill /f /pid %%p >nul 2>&1
+
 echo Starting DeepL Article Translator at http://localhost:8010
 echo Press Ctrl+C to stop.
 echo.
