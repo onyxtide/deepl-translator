@@ -43,6 +43,24 @@ pip install -r requirements.txt
 python -m uvicorn app:app --host 127.0.0.1 --port 8010
 ```
 
+## Hosted instance (Cloud Run)
+
+A password-protected instance runs at <https://deepl-translator-923917873816.europe-west1.run.app>.
+
+Deploy your own:
+
+```powershell
+gcloud run deploy deepl-translator --source . --region europe-west1 `
+  --platform managed --allow-unauthenticated `
+  --set-env-vars=DEEPL_API_KEY=YOUR_KEY,APP_PASSWORD=YOUR_PASSWORD
+```
+
+Notes:
+
+- The service scales to zero when idle; the first request after idle may take a few seconds.
+- Login sessions live in memory and reset when the instance restarts (just log in again).
+- The DeepL key and app password are stored as Cloud Run environment variables, never in this repo.
+
 ## Security
 
 - Your API key lives **only** in `.env` (gitignored). It is loaded at runtime and
