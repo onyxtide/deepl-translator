@@ -12,9 +12,53 @@ const statusEl = $("status");
 const charCount = $("char-count");
 const detectedLang = $("detected-lang");
 const usagePanel = $("usage-panel");
+const loginOverlay = $("login-overlay");
+const loginForm = $("login-form");
+const loginPassword = $("login-password");
+const loginError = $("login-error");
 
 let languageNames = {};
 let lastDetected = null;
+let loginResolver = null;
+
+function showLogin() {
+  loginOverlay.hidden = false;
+  loginPassword.focus();
+  if (loginResolver) return loginResolver;
+  return new Promise((resolve) => {
+    loginResolver = resolve;
+  });
+}
+
+function requireLogin() {
+  if (loginOverlay.hidden) return showLogin();
+  if (loginResolver) return loginResolver;
+  return new Promise((resolve) => {
+    loginResolver = resolve;
+  });
+}
+
+async function attemptLogin() {
+  try {
+    const resp = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: loginPassword.value }),
+    });
+    if (!resp.ok) {
+      loginError.hidden = false;
+      return;
+    }
+    loginError.hidden = true;
+    loginPassword.value = "";
+    loginOverlay.hidden = true;
+    const resolve = loginResolver;
+    loginResolver = null;
+    if (resolve) resolve();
+  } catch {
+    loginError.hidden = false;
+  }
+}
 
 function showStatus(message, type = "info") {
   statusEl.hidden = false;
@@ -27,7 +71,11 @@ function hideStatus() {
 }
 
 async function fetchJSON(url, options) {
-  const resp = await fetch(url, options);
+  let resp = await fetch(url, options);
+  if (resp.status === 401) {
+    await requireLogin();
+    resp = await fetch(url, options);
+  }
   const data = await resp.json().catch(() => ({}));
   if (!resp.ok) {
     throw new Error(data.detail || data.message || `Request failed (${resp.status})`);
@@ -218,6 +266,10 @@ dropzone.addEventListener("drop", (e) => handleFile(e.dataTransfer.files[0]));
 
 translateBtn.addEventListener("click", translate);
 $("swap-btn").addEventListener("click", swapLanguages);
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  attemptLogin();
+});
 clearBtn.addEventListener("click", () => {
   inputText.value = "";
   outputText.value = "";
@@ -241,6 +293,9 @@ inputText.addEventListener("input", updateCharCount);
         "error"
       );
       return;
+    }
+    if (health.auth_required) {
+      await requireLogin();
     }
   } catch {}
   await Promise.all([loadLanguages(), loadUsage()]);

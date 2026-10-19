@@ -160,3 +160,44 @@ footer {
   color: var(--muted);
 }
 footer code { color: var(--text); }
+
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.login-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: min(360px, 90vw);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.login-card h2 { margin: 0; color: var(--text); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+.login-hint { margin: 0; font-size: 0.85rem; color: var(--muted); }
+.login-card input {
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+}
+.login-card input:focus { outline: 1px solid var(--accent); }
+.login-card button {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #062033;
+  font-weight: 600;
+}
+.login-card button:hover { background: var(--accent-hover); }
+.login-error { font-size: 0.8rem; color: #fecaca; }

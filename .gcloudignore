@@ -1,0 +1,16 @@
+# Never upload secrets to Cloud Build
+.env
+*.env.local
+.env.*
+!.env.example
+
+.venv/
+__pycache__/
+*.py[cod]
+.git/
+.gcloud/
+firebase.json
+.firebaserc
+run.bat
+README.md
+LICENSE

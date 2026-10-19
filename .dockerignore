@@ -1,0 +1,17 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.git/
+.gitignore
+.env.example
+README.md
+LICENSE
+run.bat
+Dockerfile
+.dockerignore
+.gcloudignore
+.gcloud/
+firebase.json
+.firebaserc
